@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker - Professional Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" data-testid="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-wallet"></i>
+                <h1>Expense Tracker</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-view="overview" data-testid="overview-nav-btn">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Overview</span>
+                </button>
+                <button class="nav-item" data-view="transactions" data-testid="transactions-nav-btn">
+                    <i class="fas fa-list"></i>
+                    <span>Transactions</span>
+                </button>
+                <button class="nav-item" data-view="add" data-testid="add-transaction-nav-btn">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Add Transaction</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="theme-toggle" id="themeToggle" data-testid="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <h2 id="pageTitle" data-testid="page-title">Overview</h2>
+                    <p class="header-subtitle" id="currentDate" data-testid="current-date"></p>
+                </div>
+                <div class="header-right">
+                    <button class="btn-clear" id="clearAllBtn" data-testid="clear-all-btn">
+                        <i class="fas fa-trash-alt"></i>
+                        Clear All
+                    </button>
+                </div>
+            </header>
+
+            <!-- Overview Section -->
+            <section class="content-section active" id="overviewSection" data-testid="overview-section">
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="summary-card balance-card" data-testid="balance-card">
+                        <div class="card-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="card-content">
+                            <p class="card-label">Total Balance</p>
+                            <h3 class="card-value" id="totalBalance" data-testid="total-balance">$0.00</h3>
+                        </div>
+                    </div>
+                    <div class="summary-card income-card" data-testid="income-card">
+                        <div class="card-icon">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="card-content">
+                            <p class="card-label">Total Income</p>
+                            <h3 class="card-value" id="totalIncome" data-testid="total-income">$0.00</h3>
+                        </div>
+                    </div>
+                    <div class="summary-card expense-card" data-testid="expense-card">
+                        <div class="card-icon">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                        <div class="card-content">
+                            <p class="card-label">Total Expenses</p>
+                            <h3 class="card-value" id="totalExpenses" data-testid="total-expenses">$0.00</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monthly Summary -->
+                <div class="monthly-summary-container">
+                    <div class="section-header">
+                        <h3>Monthly Summary</h3>
+                        <select id="monthFilter" class="month-selector" data-testid="month-filter">
+                            <option value="all">All Time</option>
+                        </select>
+                    </div>
+                    <div class="monthly-stats" id="monthlyStats" data-testid="monthly-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Transactions</span>
+                            <span class="stat-value" id="monthTransactions" data-testid="month-transactions">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Income</span>
+                            <span class="stat-value income-text" id="monthIncome" data-testid="month-income">$0.00</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Expenses</span>
+                            <span class="stat-value expense-text" id="monthExpenses" data-testid="month-expenses">$0.00</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Net</span>
+                            <span class="stat-value" id="monthNet" data-testid="month-net">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="recent-transactions">
+                    <h3>Recent Transactions</h3>
+                    <div class="transaction-list" id="recentTransactionList" data-testid="recent-transaction-list">
+                        <p class="empty-state">No transactions yet. Add your first transaction!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transactions Section -->
+            <section class="content-section" id="transactionsSection" data-testid="transactions-section">
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <label for="typeFilter">Type</label>
+                        <select id="typeFilter" class="filter-select" data-testid="type-filter">
+                            <option value="all">All</option>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="categoryFilter">Category</label>
+                        <select id="categoryFilter" class="filter-select" data-testid="category-filter">
+                            <option value="all">All</option>
+                            <option value="food">Food</option>
+                            <option value="travel">Travel</option>
+                            <option value="rent">Rent</option>
+                            <option value="shopping">Shopping</option>
+                            <option value="salary">Salary</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="transaction-list" id="allTransactionList" data-testid="all-transaction-list">
+                    <p class="empty-state">No transactions found.</p>
+                </div>
+            </section>
+
+            <!-- Add Transaction Section -->
+            <section class="content-section" id="addSection" data-testid="add-section">
+                <div class="form-container">
+                    <form id="transactionForm" data-testid="transaction-form">
+                        <div class="form-group">
+                            <label for="title">Title / Description *</label>
+                            <input 
+                                type="text" 
+                                id="title" 
+                                placeholder="e.g., Grocery shopping, Salary, etc."
+                                data-testid="title-input"
+                                required
+                            >
+                            <span class="error-message" id="titleError"></span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="amount">Amount *</label>
+                                <input 
+                                    type="number" 
+                                    id="amount" 
+                                    placeholder="0.00" 
+                                    step="0.01"
+                                    data-testid="amount-input"
+                                    required
+                                >
+                                <span class="error-message" id="amountError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="date">Date *</label>
+                                <input 
+                                    type="date" 
+                                    id="date"
+                                    data-testid="date-input"
+                                    required
+                                >
+                                <span class="error-message" id="dateError"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="type">Type *</label>
+                                <select id="type" data-testid="type-input" required>
+                                    <option value="">Select type</option>
+                                    <option value="income">Income</option>
+                                    <option value="expense">Expense</option>
+                                </select>
+                                <span class="error-message" id="typeError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="category">Category *</label>
+                                <select id="category" data-testid="category-input" required>
+                                    <option value="">Select category</option>
+                                    <option value="food">Food</option>
+                                    <option value="travel">Travel</option>
+                                    <option value="rent">Rent</option>
+                                    <option value="shopping">Shopping</option>
+                                    <option value="salary">Salary</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <span class="error-message" id="categoryError"></span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-submit" data-testid="submit-transaction-btn">
+                            <i class="fas fa-plus"></i>
+                            Add Transaction
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
